@@ -8,6 +8,26 @@ esse repositório serve de backup para meus arquivos de configuração e pode se
 git clone https://github.com/Carlos-eduedu/Dotfiles.git ~/
 ```
 
+## Instalação e configuração alacritty
+
+Para a instalação do alacritty eu uso o [homebrew](https://formulae.brew.sh/) que o gerenciador de pacotes que eu uso.
+
+Para instalar o alacritty execute:
+
+```bash
+brew install --cask alacritty
+```
+
+E execute:
+
+```bash
+brew install --cask font-jetbrains-mono-nerd-font
+```
+
+```bash
+ln -s Dotfiles/alacritty/.alacritty.toml .alacritty.toml
+```
+
 ## configuração do vim
 
 para configurar o deve criar o link simbolico.
