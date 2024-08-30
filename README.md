@@ -1,10 +1,14 @@
-# Instalação
+# Dotfiles
+
+esse repositório serve de backup para meus arquivos de configuração e pode ser que sirva de inspiração para alguém.
+
+## Clone de repositório.
 
 ```bash
 git clone https://github.com/Carlos-eduedu/Dotfiles.git ~/
 ```
 
-# configuração do vim
+## configuração do vim
 
 para configurar o deve criar o link simbolico.
 
