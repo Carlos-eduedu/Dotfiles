@@ -90,7 +90,9 @@ A identidade Git também é local: o instalador cria `~/.config/git/config.local
 
 As integrações zsh continuam condicionais à presença das ferramentas. O NVM é carregado sob demanda no primeiro uso de `nvm`, `node`, `npm`, `npx` ou `corepack`; nenhuma versão de Node é presumida. Instale a versão desejada após o restore, por exemplo `nvm install --lts`.
 
-`fzf` usa `ripgrep` como fonte de arquivos quando disponível e `bat` para previews. Dentro do tmux, `<C-h/j/k/l>` navega entre splits do Neovim e panes do tmux sem plugin adicional. Os mesmos atalhos navegam panes a partir do shell; use o prefixo seguido de `h/j/k/l` como alternativa explícita.
+`fzf` usa `ripgrep` como fonte de arquivos quando disponível e `bat` para previews. O completion do Zsh agrupa e descreve resultados, prioriza correspondências rápidas e só tenta correção aproximada de um caractere como fallback. Após instalar uma ferramenta com novas completions, force uma atualização com `completion-rebuild`.
+
+Dentro do tmux, `<C-h/j/k/l>` navega entre splits do Neovim e panes do tmux sem plugin adicional. Os mesmos atalhos navegam panes a partir do shell; use o prefixo seguido de `h/j/k/l` como alternativa explícita.
 
 A configuração do Neovim usa o [LazyVim Starter](https://www.lazyvim.org/installation). Na primeira abertura, o `lazy.nvim` baixa o gerenciador e os plugins declarados pelo LazyVim. Execute `:LazyHealth` depois dessa primeira sincronização.
 

@@ -54,12 +54,32 @@ if [[ -s "$_compdump" && "$_compdump_checked" == <-> ]] && (( EPOCHSECONDS - _co
   compinit -C -d "$_compdump"
 else
   compinit -d "$_compdump"
+  zcompile "$_compdump" 2>/dev/null
   print -r -- "$EPOCHSECONDS" >| "$_compdump_check"
 fi
 unset _compdump _compdump_check _compdump_checked
-zstyle ':completion:*' menu select
+# Fast first pass, then separator-aware matching and a one-error fallback.
 zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list \
+  'm:{a-zA-Z}={A-Za-z}' \
+  'r:|[._-]=* r:|=*' \
+  'l:|=* r:|=*'
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# Group and describe candidates without turning completion into a noisy UI.
+zstyle ':completion:*' menu select
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%F{8}-- %d --%f'
+zstyle ':completion:*:corrections' format '%F{3}-- %d (errors: %e) --%f'
+zstyle ':completion:*:warnings' format '%F{1}-- no matches --%f'
+zstyle ':completion:*' list-dirs-first true
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' special-dirs true
+zstyle ':completion:*' accept-exact '*(N)'
+
+# Prefer useful directory candidates and keep expensive generated results cached.
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 

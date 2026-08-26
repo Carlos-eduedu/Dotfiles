@@ -3,6 +3,16 @@ mkcd() {
   mkdir -p -- "$1" && builtin cd -- "$1"
 }
 
+completion-rebuild() {
+  local dump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+  command rm -f -- "$dump" "$dump.zwc" "$dump.last-check"
+  autoload -Uz compinit
+  compinit -d "$dump" || return
+  zcompile "$dump" 2>/dev/null
+  print -r -- "$EPOCHSECONDS" >| "$dump.last-check"
+  print -r -- "Completion cache rebuilt: $dump"
+}
+
 fh() {
   command -v fzf >/dev/null 2>&1 || return 1
   local selected
