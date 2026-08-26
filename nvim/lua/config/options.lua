@@ -2,6 +2,10 @@
 -- https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 local opt = vim.opt
 
+-- Studio1804 relies on true color and restrained rounded floating borders.
+opt.termguicolors = true
+opt.winborder = "rounded"
+
 -- Preserve preferences from the previous dependency-free base.
 opt.relativenumber = true
 opt.cursorline = true

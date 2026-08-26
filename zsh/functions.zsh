@@ -6,13 +6,15 @@ mkcd() {
 fh() {
   command -v fzf >/dev/null 2>&1 || return 1
   local selected
-  selected="$(fc -rl 1 | fzf --height 40% --reverse --border | sed 's/^[ ]*[0-9]\+[ ]*//')"
+  selected="$(fc -rl 1 | fzf --no-sort | sed 's/^[ ]*[0-9]\+[ ]*//')"
   [[ -n "$selected" ]] && print -z -- "$selected"
 }
 
 fe() {
   command -v fzf >/dev/null 2>&1 || return 1
   local file
-  file="$(fzf)"
-  [[ -n "$file" ]] && "$EDITOR" "$file"
+  local -a preview
+  command -v bat >/dev/null 2>&1 && preview=(--preview 'bat --color=always --style=numbers --line-range=:300 {}')
+  file="$(fzf "${preview[@]}")"
+  [[ -n "$file" ]] && "$EDITOR" -- "$file"
 }
