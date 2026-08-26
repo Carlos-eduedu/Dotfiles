@@ -1,0 +1,8 @@
+# Never version machine-local shell settings or credentials.
+.zshrc.local
+*.local
+.env
+.env.*
+
+# Editor and operating-system files.
+.DS_Store

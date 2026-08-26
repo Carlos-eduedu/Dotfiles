@@ -1,0 +1,15 @@
+# macOS dependencies managed by Homebrew. Installed with:
+# brew bundle --file Brewfile
+brew "bat"
+brew "eza"
+brew "fzf"
+brew "gh"
+brew "git"
+brew "neovim"
+brew "nvm"
+brew "ripgrep"
+brew "starship"
+brew "tmux"
+brew "uv"
+brew "zoxide"
+cask "ghostty"

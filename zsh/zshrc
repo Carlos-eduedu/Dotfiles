@@ -1,0 +1,62 @@
+# Managed zsh entry point. Machine-specific settings belong in ~/.zshrc.local.
+
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+fi
+
+typeset -U path PATH
+for path_entry in "$HOME/.opencode/bin" "$HOME/.local/bin" "$HOME/bin"; do
+  [[ -d "$path_entry" ]] && path=("$path_entry" $path)
+done
+unset path_entry
+export PATH
+
+export LANG="${LANG:-en_US.UTF-8}"
+export EDITOR="${EDITOR:-nvim}"
+export VISUAL="${VISUAL:-$EDITOR}"
+export HOMEBREW_NO_ENV_HINTS=1
+
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=20000
+export SAVEHIST=20000
+setopt APPEND_HISTORY INC_APPEND_HISTORY SHARE_HISTORY EXTENDED_HISTORY
+setopt HIST_IGNORE_ALL_DUPS HIST_SAVE_NO_DUPS HIST_FIND_NO_DUPS HIST_REDUCE_BLANKS
+setopt AUTO_CD INTERACTIVE_COMMENTS NO_BEEP COMPLETE_IN_WORD ALWAYS_TO_END PUSHD_IGNORE_DUPS
+
+bindkey -v
+export KEYTIMEOUT=1
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+autoload -Uz compinit
+_compdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+[[ -d "${_compdump:h}" ]] || mkdir -p "${_compdump:h}"
+compinit -d "$_compdump"
+unset _compdump
+zstyle ':completion:*' menu select
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+
+# Respect an explicit DOTFILES_DIR. Otherwise resolve this file (including a
+# symlink such as ~/.zshrc) so the configuration works from any clone path.
+if [[ -z "${DOTFILES_DIR:-}" ]]; then
+  _dotfiles_entry="${(%):-%N}"
+  _dotfiles_entry="${_dotfiles_entry:P}"
+  DOTFILES_DIR="${_dotfiles_entry:h:h}"
+  # Keep the historic location only as a fallback for unusual source contexts.
+  [[ -d "$DOTFILES_DIR/zsh" ]] || DOTFILES_DIR="$HOME/Developer/Dotfiles"
+  unset _dotfiles_entry
+fi
+
+for module in aliases.zsh functions.zsh integrations.zsh; do
+  [[ -r "$DOTFILES_DIR/zsh/$module" ]] && source "$DOTFILES_DIR/zsh/$module"
+done
+unset module
+
+# Never version this file. It holds machine-specific values such as API keys.
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

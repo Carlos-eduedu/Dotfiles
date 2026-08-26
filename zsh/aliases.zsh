@@ -1,0 +1,35 @@
+alias c='clear'
+alias e='$EDITOR'
+alias v='$EDITOR'
+alias reload='exec zsh'
+
+alias g='git'
+alias ga='git add'
+alias gap='git add -p'
+alias gb='git branch'
+alias gc='git commit'
+alias gca='git commit -a'
+alias gcam='git commit -am'
+alias gco='git checkout'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gl='git log --oneline --graph --decorate --all'
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpl='git pull'
+alias gs='git status -sb'
+
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --group-directories-first'
+  alias l='eza --group-directories-first'
+  alias la='eza -a --group-directories-first'
+  alias ll='eza -lh --group-directories-first'
+  alias lla='eza -lah --group-directories-first'
+else
+  alias l='ls -CF'
+  alias la='ls -A'
+  alias ll='ls -lh'
+  alias lla='ls -lah'
+fi
+
+command -v bat >/dev/null 2>&1 && alias cat='bat --paging=never'
