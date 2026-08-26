@@ -8,6 +8,7 @@ Configurações pessoais modulares para macOS e zsh. Este diretório é uma cóp
 - `tmux/`: configuração do tmux compatível com Ghostty.
 - `ghostty/`: configuração e temas do Ghostty.
 - `nvim/`: configuração modular do Neovim baseada no LazyVim Starter.
+- `git/`: configurações globais, ignore e template de commits do Git.
 - `scripts/install.sh`: cria links simbólicos e backups datados.
 - `scripts/rollback.sh`: restaura um backup criado pelo instalador.
 
@@ -63,6 +64,15 @@ Mantenha permissões restritas:
 chmod 600 ~/.zshrc.local
 ```
 
+A identidade Git também é local: o instalador cria `~/.config/git/config.local` com permissão `600`. Defina-a sem alterar os arquivos gerenciados:
+
+```ini
+[user]
+    name = Seu Nome
+    email = voce@example.com
+# signingkey = ...  # opcional; não ative assinatura sem uma chave configurada
+```
+
 ## Dependências
 
 `Brewfile` declara: `bat`, `eza`, `fzf`, `gh`, `git`, `neovim`, `nvm`, `ripgrep`, `starship`, `tmux`, `uv`, `zoxide` e o cask Ghostty.
@@ -70,6 +80,8 @@ chmod 600 ~/.zshrc.local
 As integrações zsh continuam condicionais à presença das ferramentas. O NVM é instalado, mas nenhuma versão de Node é presumida; instale a versão desejada após o restore, por exemplo `nvm install --lts`.
 
 A configuração do Neovim usa o [LazyVim Starter](https://www.lazyvim.org/installation). Na primeira abertura, o `lazy.nvim` baixa o gerenciador e os plugins declarados pelo LazyVim. Execute `:LazyHealth` depois dessa primeira sincronização.
+
+A configuração Git adota um subconjunto portátil do vídeo indicado: status detalhado, diffs compactos, rebase com autostash, push com upstream automático, ordenação de branches/tags, template de commits e `nvim` como editor. Ela não define nome, e-mail, URLs encurtadas, GPG ou um pager externo, pois esses itens são específicos da máquina ou exigem dependências adicionais.
 
 Preferências locais estão em `nvim/lua/config/`; plugins e extras devem ser declarados explicitamente em `nvim/lua/plugins/`.
 

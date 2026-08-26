@@ -93,6 +93,15 @@ install_link "$HOME/.tmux.conf" "$ROOT/tmux/tmux.conf"
 install_link "$HOME/.config/ghostty/config" "$ROOT/ghostty/config"
 install_link "$HOME/.config/ghostty/themes" "$ROOT/ghostty/themes"
 install_link "$HOME/.config/nvim" "$ROOT/nvim"
+install_link "$HOME/.config/git/config" "$ROOT/git/config"
+install_link "$HOME/.config/git/ignore" "$ROOT/git/ignore"
+install_link "$HOME/.config/git/commit-template" "$ROOT/git/commit-template"
+
+# Identity is deliberately local and never belongs in the managed repository.
+mkdir -p "$HOME/.config/git"
+if [ ! -e "$HOME/.config/git/config.local" ]; then
+  (umask 077 && : > "$HOME/.config/git/config.local")
+fi
 
 if [ "$INSTALL_TMUX_PLUGINS" = true ]; then
   TPM_DIR="$HOME/.tmux/plugins/tpm"

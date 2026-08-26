@@ -1,0 +1,55 @@
+# Managed global Git defaults. Personal identity stays in ~/.config/git/config.local.
+[include]
+	path = ~/.config/git/config.local
+
+[core]
+	editor = nvim
+	compression = 9
+	whitespace = error
+	preloadIndex = true
+	excludesFile = ~/.config/git/ignore
+
+[init]
+	defaultBranch = main
+
+[status]
+	branch = true
+	showStash = true
+	showUntrackedFiles = all
+
+[diff]
+	context = 5
+	renames = copies
+	interHunkContext = 10
+
+[interactive]
+	singleKey = true
+
+[commit]
+	verbose = true
+	template = ~/.config/git/commit-template
+
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+
+[pull]
+	rebase = true
+
+[rebase]
+	autoStash = true
+	missingCommitsCheck = warn
+
+[log]
+	abbrevCommit = true
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = -taggerdate
+
+[pager]
+	branch = false
+	tag = false
