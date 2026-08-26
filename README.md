@@ -7,6 +7,7 @@ Configurações pessoais modulares para macOS e zsh. Este diretório é uma cóp
 - `zsh/`: inicialização, aliases, funções e integrações opcionais.
 - `tmux/`: configuração do tmux compatível com Ghostty.
 - `ghostty/`: configuração e temas do Ghostty.
+- `eza/`: cores de arquivos e metadados alinhadas à paleta do terminal.
 - `starship/`: prompt compacto alinhado à paleta do terminal.
 - `nvim/`: configuração modular do Neovim baseada no LazyVim Starter.
 - `git/`: configurações globais, ignore e template de commits do Git.
@@ -102,7 +103,7 @@ Preferências locais estão em `nvim/lua/config/`; plugins e extras devem ser de
 
 ## Paleta visual
 
-Ghostty, tmux, Starship, fzf e Neovim compartilham a paleta semântica Studio1804:
+Ghostty, tmux, eza, Starship, fzf e Neovim compartilham a paleta semântica Studio1804:
 
 | Papel | Cor |
 |---|---|
@@ -113,7 +114,7 @@ Ghostty, tmux, Starship, fzf e Neovim compartilham a paleta semântica Studio180
 | Sucesso / aviso / erro | `#22c55e` / `#eab308` / `#ef4444` |
 | Informação / inativo | `#38bdf8` / `#374151` |
 
-O mapeamento canônico está documentado em `ghostty/themes/studio1804-modern.conf`. As demais ferramentas repetem esses valores porque seus formatos não compartilham uma fonte de configuração. A configuração evita dependência de Nerd Fonts; símbolos usados possuem fallback Unicode comum.
+O mapeamento canônico está documentado em `ghostty/themes/studio1804-modern.conf`. As demais ferramentas repetem esses valores porque seus formatos não compartilham uma fonte de configuração. O tema do eza fica em `eza/theme.yml`; `EZA_CONFIG_DIR` garante que ele seja encontrado também no macOS. Variáveis locais `EZA_COLORS` ou `LS_COLORS` podem sobrescrever partes do tema. A configuração evita dependência de Nerd Fonts; símbolos usados possuem fallback Unicode comum.
 
 ## Atualizar
 

@@ -20,6 +20,8 @@ alias gpl='git pull'
 alias gs='git status -sb'
 
 if command -v eza >/dev/null 2>&1; then
+  # Force a portable config location on macOS and other platforms.
+  export EZA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/eza"
   alias ls='eza --group-directories-first'
   alias l='eza --group-directories-first'
   alias la='eza -a --group-directories-first'
