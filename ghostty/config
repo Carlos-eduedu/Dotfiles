@@ -22,7 +22,7 @@ mouse-hide-while-typing = true
 copy-on-select = true
 confirm-close-surface = true
 clipboard-write = allow
-clipboard-read = allow
+clipboard-read = ask
 clipboard-trim-trailing-spaces = true
 clipboard-paste-protection = true
 

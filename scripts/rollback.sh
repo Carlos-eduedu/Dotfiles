@@ -23,6 +23,22 @@ info() {
   printf '[INFO] %s\n' "$*"
 }
 
+managed_source() {
+  case "$1" in
+    .zshrc) printf '%s\n' "$ROOT/zsh/zshrc" ;;
+    .tmux.conf) printf '%s\n' "$ROOT/tmux/tmux.conf" ;;
+    .config/ghostty/config) printf '%s\n' "$ROOT/ghostty/config" ;;
+    .config/ghostty/themes) printf '%s\n' "$ROOT/ghostty/themes" ;;
+    .config/nvim) printf '%s\n' "$ROOT/nvim" ;;
+    .config/eza/theme.yml) printf '%s\n' "$ROOT/eza/theme.yml" ;;
+    .config/starship.toml) printf '%s\n' "$ROOT/starship/starship.toml" ;;
+    .config/git/config) printf '%s\n' "$ROOT/git/config" ;;
+    .config/git/ignore) printf '%s\n' "$ROOT/git/ignore" ;;
+    .config/git/commit-template) printf '%s\n' "$ROOT/git/commit-template" ;;
+    *) return 1 ;;
+  esac
+}
+
 for argument in "$@"; do
   case "$argument" in
     --dry-run) DRY_RUN=true ;;
@@ -52,8 +68,9 @@ seen='|'
 entries=0
 
 # Preflight every entry first so a malformed or incomplete backup changes nothing.
-while IFS="$tab" read -r state relative; do
+while IFS="$tab" read -r state relative source extra; do
   [ -n "$state" ] || continue
+  [ -z "$extra" ] || { printf 'Too many fields in backup manifest entry: %s\n' "$relative" >&2; exit 1; }
   # Manifests created before the typed format contain only the relative path.
   if [ -z "$relative" ]; then
     relative=$state
@@ -70,6 +87,11 @@ while IFS="$tab" read -r state relative; do
       exit 1
       ;;
   esac
+  expected=$(managed_source "$relative") || { printf 'Unmanaged path in backup manifest: %s\n' "$relative" >&2; exit 1; }
+  [ -z "$source" ] || [ "$source" = "$expected" ] || {
+    printf 'Unexpected source in backup manifest for %s: %s\n' "$relative" "$source" >&2
+    exit 1
+  }
   case "$seen" in
     *"|$relative|"*) printf 'Duplicate path in backup manifest: %s\n' "$relative" >&2; exit 1 ;;
   esac
@@ -77,6 +99,11 @@ while IFS="$tab" read -r state relative; do
 
   target="$HOME/$relative"
   [ -L "$target" ] || { printf 'Refusing to replace non-link target: %s\n' "$target" >&2; exit 1; }
+  actual=$(readlink "$target")
+  [ "$actual" = "$expected" ] || {
+    printf 'Refusing to replace link with unexpected destination: %s -> %s\n' "$target" "$actual" >&2
+    exit 1
+  }
   if [ "$state" = existing ]; then
     saved="$BACKUP/$relative"
     [ -e "$saved" ] || [ -L "$saved" ] || { printf 'Missing backup: %s\n' "$saved" >&2; exit 1; }
@@ -84,7 +111,7 @@ while IFS="$tab" read -r state relative; do
   entries=$((entries + 1))
 done < "$MANIFEST"
 
-while IFS="$tab" read -r state relative; do
+while IFS="$tab" read -r state relative source extra; do
   [ -n "$state" ] || continue
   if [ -z "$relative" ]; then
     relative=$state

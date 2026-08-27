@@ -4,7 +4,6 @@
 
 [core]
 	editor = nvim
-	compression = 9
 	whitespace = error
 	preloadIndex = true
 	excludesFile = ~/.config/git/ignore
@@ -15,11 +14,11 @@
 [status]
 	branch = true
 	showStash = true
-	showUntrackedFiles = all
+	showUntrackedFiles = normal
 
 [diff]
 	context = 5
-	renames = copies
+	renames = true
 	interHunkContext = 10
 
 [interactive]
@@ -53,6 +52,3 @@
 [pager]
 	branch = false
 	tag = false
-[user]
-	name = Carlos Eduardo Ferreira Fernandes
-	email = carlos@dynatech.systems
