@@ -1,8 +1,26 @@
-# Never version machine-local shell settings or credentials.
-.zshrc.local
-*.local
-.env
-.env.*
+# Segredos, chaves e dados locais
+id_*
+*.key
+*.pem
+*.p12
+*.pfx
+private-keys-v1.d/
+*.kbx
+trustdb.gpg
+openpgp-revocs.d/
+S.gpg-agent*
+.npmrc
+.netrc
+.env*
+known_hosts*
+authorized_keys
+credentials
 
-# Editor and operating-system files.
+# Sobrescritas específicas da máquina
+*.local
+.local/
+.zshrc.local
+
+# Backups e artefatos do sistema
+.dotfiles-backup/
 .DS_Store
